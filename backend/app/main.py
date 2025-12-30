@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 from app.auth import auth_router
 from app.config import settings
 from app.database import close_db, init_db
+from app.players import players_router
 
 
 @asynccontextmanager
@@ -113,6 +114,7 @@ async def health_check() -> JSONResponse:
 
 # Register routers
 app.include_router(auth_router, prefix="/api/v1")
+app.include_router(players_router, prefix="/api/v1")
 
 
 @app.get("/", tags=["Root"])

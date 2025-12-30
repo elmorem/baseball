@@ -8,6 +8,7 @@ from app.players.repository import (
     get_players,
     update_player,
 )
+from app.players.router import router as players_router
 from app.players.schemas import (
     PlayerCreate,
     PlayerDescriptionResponse,
@@ -17,6 +18,8 @@ from app.players.schemas import (
 )
 
 __all__ = [
+    # Router
+    "players_router",
     # Schemas
     "PlayerCreate",
     "PlayerUpdate",
