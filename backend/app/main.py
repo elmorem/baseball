@@ -8,6 +8,7 @@ from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.ai import ai_router
 from app.auth import auth_router
 from app.config import settings
 from app.database import close_db, init_db
@@ -115,6 +116,7 @@ async def health_check() -> JSONResponse:
 # Register routers
 app.include_router(auth_router, prefix="/api/v1")
 app.include_router(players_router, prefix="/api/v1")
+app.include_router(ai_router, prefix="/api/v1")
 
 
 @app.get("/", tags=["Root"])
