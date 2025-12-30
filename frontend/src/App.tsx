@@ -1,44 +1,80 @@
 import { createBrowserRouter, Link, Outlet, RouterProvider, useRouteError } from 'react-router-dom';
 
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { LoginPage, RegisterPage } from './pages/auth';
+
+/**
+ * Navigation component with auth-aware links
+ */
+function Navigation() {
+  const { isAuthenticated, user, logout } = useAuth();
+
+  return (
+    <nav className="border-b border-gray-200 bg-white shadow-sm">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <div className="flex items-center">
+            <Link to="/" className="text-xl font-bold text-primary-600">
+              Baseball Stats
+            </Link>
+            <div className="ml-10 flex items-baseline space-x-4">
+              <Link
+                to="/"
+                className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              >
+                Home
+              </Link>
+              <Link
+                to="/players"
+                className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              >
+                Players
+              </Link>
+            </div>
+          </div>
+          <div className="flex items-center space-x-4">
+            {isAuthenticated ? (
+              <>
+                <span className="text-sm text-gray-600">
+                  Welcome, {user?.username}
+                </span>
+                <button
+                  onClick={logout}
+                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="btn-primary"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
 /**
  * Root layout component with navigation
  */
 function RootLayout() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="border-b border-gray-200 bg-white shadow-sm">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center">
-              <Link to="/" className="text-xl font-bold text-primary-600">
-                Baseball Stats
-              </Link>
-              <div className="ml-10 flex items-baseline space-x-4">
-                <Link
-                  to="/"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                >
-                  Home
-                </Link>
-                <Link
-                  to="/players"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                >
-                  Players
-                </Link>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link
-                to="/login"
-                className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-              >
-                Login
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <Outlet />
       </main>
@@ -97,83 +133,7 @@ function HomePage() {
 }
 
 /**
- * Login page component
- */
-function LoginPage() {
-  return (
-    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center">
-      <div className="card w-full max-w-md">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900">Sign in to your account</h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Enter your credentials to access Baseball Stats
-          </p>
-        </div>
-
-        <form className="mt-8 space-y-6">
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="input mt-1"
-                placeholder="you@example.com"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="input mt-1"
-                placeholder="••••••••"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                Remember me
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <a href="#" className="font-medium text-primary-600 hover:text-primary-700">
-                Forgot password?
-              </a>
-            </div>
-          </div>
-
-          <button type="submit" className="btn-primary w-full">
-            Sign in
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Players page component
+ * Players page component (placeholder)
  */
 function PlayersPage() {
   return (
@@ -255,6 +215,10 @@ export const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
+        path: 'register',
+        element: <RegisterPage />,
+      },
+      {
         path: 'players',
         element: <PlayersPage />,
       },
@@ -267,5 +231,9 @@ export const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
