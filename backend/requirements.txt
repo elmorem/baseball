@@ -12,10 +12,12 @@ alembic==1.13.3
 # Pydantic
 pydantic==2.9.2
 pydantic-settings==2.5.2
+email-validator==2.2.0
 
 # Authentication & Security
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
 python-dotenv==1.0.1
 
 # HTTP Client
@@ -26,6 +28,7 @@ openai==1.51.2
 
 # Development Tools (optional, comment out for production)
 black==24.10.0
+ruff==0.8.4
 isort==5.13.2
 mypy==1.11.2
 pytest==8.3.3

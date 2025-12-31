@@ -1,14 +1,15 @@
 """Player model for baseball statistics."""
 
-from datetime import datetime
 from decimal import Decimal
-from typing import List, Optional
-from uuid import UUID
+from typing import TYPE_CHECKING, List, Optional
 
 from sqlalchemy import Index, Integer, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin, UUIDMixin
+
+if TYPE_CHECKING:
+    from app.models.player_description import PlayerDescription
 
 
 class Player(Base, UUIDMixin, TimestampMixin):

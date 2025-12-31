@@ -72,8 +72,8 @@ async def init_db() -> None:
     This function should be called during application startup.
     """
     # Test the connection
-    async with engine.begin() as conn:
-        # You can add any initialization logic here
+    async with engine.begin():
+        # Connection test successful
         pass
 
 

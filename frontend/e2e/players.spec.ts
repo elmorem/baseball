@@ -3,10 +3,12 @@
  * These tests require authentication to be set up first.
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 
 // Helper to set up auth state
-async function loginAsTestUser(page: any) {
+async function loginAsTestUser(page: Page) {
+  // Navigate to app first to get a valid origin for localStorage access
+  await page.goto('/');
   // Set mock auth token for testing
   await page.evaluate(() => {
     localStorage.setItem(

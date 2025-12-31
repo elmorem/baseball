@@ -1,7 +1,6 @@
 """Base SQLAlchemy model with common functionality."""
 
-from datetime import datetime, timezone
-from typing import Any
+from datetime import datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import DateTime, func

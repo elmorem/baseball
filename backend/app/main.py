@@ -2,7 +2,7 @@
 
 import uuid
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Awaitable, Callable
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,14 +29,14 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """
     # Startup: Initialize database connection
     await init_db()
-    print(f"✓ Database connection initialized")
+    print("✓ Database connection initialized")
     print(f"✓ {settings.APP_NAME} started successfully")
 
     yield
 
     # Shutdown: Close database connections
     await close_db()
-    print(f"✓ Database connections closed")
+    print("✓ Database connections closed")
 
 
 # Create FastAPI application
@@ -63,7 +63,9 @@ app.add_middleware(
 
 
 @app.middleware("http")
-async def add_request_id(request: Request, call_next) -> Response:
+async def add_request_id(
+    request: Request, call_next: Callable[[Request], Awaitable[Response]]
+) -> Response:
     """Add unique request ID to each request.
 
     Generates a unique UUID for each request and adds it to both
