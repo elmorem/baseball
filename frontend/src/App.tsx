@@ -2,7 +2,7 @@ import { createBrowserRouter, Link, Outlet, RouterProvider, useRouteError } from
 
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { LoginPage, RegisterPage } from './pages/auth';
-import { PlayerListPage } from './pages/players';
+import { PlayerDetailPage, PlayerFormPage, PlayerListPage } from './pages/players';
 
 /**
  * Navigation component with auth-aware links
@@ -199,6 +199,18 @@ export const router = createBrowserRouter([
       {
         path: 'players',
         element: <PlayerListPage />,
+      },
+      {
+        path: 'players/new',
+        element: <PlayerFormPage />,
+      },
+      {
+        path: 'players/:id',
+        element: <PlayerDetailPage />,
+      },
+      {
+        path: 'players/:id/edit',
+        element: <PlayerFormPage />,
       },
       {
         path: '*',
