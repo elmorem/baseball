@@ -1,9 +1,5 @@
 """User model for authentication and authorization."""
 
-from datetime import datetime
-from typing import Optional
-from uuid import UUID
-
 from sqlalchemy import Boolean, String
 from sqlalchemy.orm import Mapped, mapped_column
 

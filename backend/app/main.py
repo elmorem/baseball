@@ -29,14 +29,14 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """
     # Startup: Initialize database connection
     await init_db()
-    print(f"✓ Database connection initialized")
+    print("✓ Database connection initialized")
     print(f"✓ {settings.APP_NAME} started successfully")
 
     yield
 
     # Shutdown: Close database connections
     await close_db()
-    print(f"✓ Database connections closed")
+    print("✓ Database connections closed")
 
 
 # Create FastAPI application

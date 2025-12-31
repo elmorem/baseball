@@ -2,7 +2,6 @@
 
 from datetime import timedelta
 
-import pytest
 
 from app.auth.security import (
     ACCESS_TOKEN_TYPE,

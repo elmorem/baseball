@@ -2,13 +2,16 @@
 
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 from uuid import UUID
 
 from sqlalchemy import ForeignKey, Integer, Numeric, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, UUIDMixin
+
+if TYPE_CHECKING:
+    from app.models.player import Player
 
 
 class PlayerDescription(Base, UUIDMixin):
