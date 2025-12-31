@@ -6,7 +6,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { ReactNode } from 'react';
 
 import * as authService from '../services/auth';
-import type { AuthContextValue, AuthState, LoginCredentials, RegisterData, User } from '../types/auth';
+import type { AuthContextValue, AuthState, LoginCredentials, RegisterData } from '../types/auth';
 
 /**
  * Initial auth state
