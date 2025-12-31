@@ -6,6 +6,8 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Authentication', () => {
   test.beforeEach(async ({ page }) => {
+    // Navigate to app first to get a valid origin for localStorage access
+    await page.goto('/');
     // Clear any existing auth state
     await page.context().clearCookies();
     await page.evaluate(() => localStorage.clear());

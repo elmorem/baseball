@@ -30,7 +30,8 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     Returns:
         True if the password matches, False otherwise.
     """
-    return pwd_context.verify(plain_password, hashed_password)
+    result: bool = pwd_context.verify(plain_password, hashed_password)
+    return result
 
 
 def get_password_hash(password: str) -> str:
@@ -42,7 +43,8 @@ def get_password_hash(password: str) -> str:
     Returns:
         The hashed password string.
     """
-    return pwd_context.hash(password)
+    hashed: str = pwd_context.hash(password)
+    return hashed
 
 
 def create_access_token(
@@ -75,7 +77,10 @@ def create_access_token(
         }
     )
 
-    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    token: str = jwt.encode(
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
+    )
+    return token
 
 
 def create_refresh_token(data: dict[str, Any]) -> str:
@@ -98,7 +103,10 @@ def create_refresh_token(data: dict[str, Any]) -> str:
         }
     )
 
-    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    token: str = jwt.encode(
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
+    )
+    return token
 
 
 def verify_token(token: str, expected_type: str | None = None) -> dict[str, Any] | None:
@@ -112,7 +120,7 @@ def verify_token(token: str, expected_type: str | None = None) -> dict[str, Any]
         Decoded token payload if valid, None otherwise.
     """
     try:
-        payload = jwt.decode(
+        payload: dict[str, Any] = jwt.decode(
             token,
             settings.SECRET_KEY,
             algorithms=[settings.ALGORITHM],
