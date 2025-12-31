@@ -43,26 +43,23 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
-        with:
-          version: "latest"
-
       - name: Install dependencies
         working-directory: ./backend
-        run: uv sync
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Run linting (Ruff)
         working-directory: ./backend
-        run: uv run ruff check .
+        run: ruff check .
 
       - name: Run formatting check (Black)
         working-directory: ./backend
-        run: uv run black --check .
+        run: black --check .
 
       - name: Run type checking (mypy)
         working-directory: ./backend
-        run: uv run mypy app --ignore-missing-imports
+        run: mypy app --ignore-missing-imports
 
       - name: Run tests
         working-directory: ./backend
@@ -70,7 +67,7 @@ jobs:
           DATABASE_URL: postgresql+asyncpg://test_user:test_pass@localhost:5432/test_db
           SECRET_KEY: test-secret-key-for-ci-at-least-32-chars
           OPENAI_API_KEY: test-key
-        run: uv run pytest -v --cov=app --cov-report=xml
+        run: pytest -v --cov=app --cov-report=xml
 
       - name: Upload coverage
         uses: codecov/codecov-action@v4

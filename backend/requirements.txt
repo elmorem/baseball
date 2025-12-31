@@ -26,6 +26,7 @@ openai==1.51.2
 
 # Development Tools (optional, comment out for production)
 black==24.10.0
+ruff==0.8.4
 isort==5.13.2
 mypy==1.11.2
 pytest==8.3.3
