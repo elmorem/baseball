@@ -1,19 +1,59 @@
-# Multi-stage build for production-ready React application
+# Multi-stage build for React application with test support
 
-# Stage 1: Build the application
-FROM node:20-alpine AS builder
+# Stage 1: Base with dependencies
+FROM node:20-bookworm-slim AS base
 
-# Set working directory
 WORKDIR /app
+
+# Install dependencies for Playwright browsers
+RUN apt-get update && apt-get install -y \
+    wget \
+    gnupg \
+    ca-certificates \
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libdrm2 \
+    libgbm1 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libxshmfence1 \
+    xdg-utils \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
 COPY package.json package-lock.json* ./
 
-# Install dependencies (use ci if lockfile exists, otherwise install)
-RUN if [ -f package-lock.json ]; then npm ci --silent; else npm install --silent; fi
+# Install all dependencies (including devDependencies for tests)
+RUN npm ci
+
+# Install Playwright browsers
+RUN npx playwright install chromium
 
 # Copy source code
 COPY . .
+
+# Stage 2: Development/Test runner
+FROM base AS development
+
+# Expose Vite dev server port
+EXPOSE 5173
+
+# Default to dev server
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+
+# Stage 3: Build for production
+FROM base AS builder
 
 # Build arguments for environment variables
 ARG VITE_API_URL
@@ -28,7 +68,7 @@ ENV VITE_ENABLE_ANALYTICS=${VITE_ENABLE_ANALYTICS}
 # Build the application
 RUN npm run build
 
-# Stage 2: Production server with nginx
+# Stage 4: Production server with nginx
 FROM nginx:1.25-alpine AS production
 
 # Install dumb-init for proper signal handling
