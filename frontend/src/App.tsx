@@ -2,6 +2,7 @@ import { createBrowserRouter, Link, Outlet, RouterProvider, useRouteError } from
 
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { LoginPage, RegisterPage } from './pages/auth';
+import { PlayerListPage } from './pages/players';
 
 /**
  * Navigation component with auth-aware links
@@ -133,29 +134,6 @@ function HomePage() {
 }
 
 /**
- * Players page component (placeholder)
- */
-function PlayersPage() {
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Players</h1>
-        <button className="btn-primary">
-          Add Player
-        </button>
-      </div>
-
-      <div className="card">
-        <p className="text-gray-600">
-          Player list and statistics will be displayed here. This is a placeholder component
-          that will be replaced with actual data fetching and display logic.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/**
  * Error boundary component for route errors
  */
 function ErrorBoundary() {
@@ -220,7 +198,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'players',
-        element: <PlayersPage />,
+        element: <PlayerListPage />,
       },
       {
         path: '*',
