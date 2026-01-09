@@ -347,6 +347,7 @@ describe('PlayerListPage', () => {
           on_base_percentage: null,
           slugging_percentage: null,
           ops: null,
+          hits_per_game: null,
           created_at: '2024-01-01T00:00:00Z',
           updated_at: '2024-01-01T00:00:00Z',
           descriptions: [],

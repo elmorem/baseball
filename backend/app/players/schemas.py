@@ -45,6 +45,9 @@ class PlayerBase(BaseModel):
     ops: Optional[Decimal] = Field(
         None, ge=0, le=3, description="On-base plus slugging"
     )
+    hits_per_game: Optional[Decimal] = Field(
+        None, ge=0, description="Hits per game (hits / games)"
+    )
 
     @field_validator("position")
     @classmethod
@@ -100,6 +103,7 @@ class PlayerUpdate(BaseModel):
     on_base_percentage: Optional[Decimal] = Field(None, ge=0, le=1)
     slugging_percentage: Optional[Decimal] = Field(None, ge=0, le=2)
     ops: Optional[Decimal] = Field(None, ge=0, le=3)
+    hits_per_game: Optional[Decimal] = Field(None, ge=0)
 
 
 class PlayerDescriptionResponse(BaseModel):

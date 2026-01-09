@@ -25,6 +25,7 @@ export interface Player {
   on_base_percentage: string | null;
   slugging_percentage: string | null;
   ops: string | null;
+  hits_per_game: string | null;
   created_at: string;
   updated_at: string;
   descriptions: PlayerDescription[];
@@ -87,6 +88,7 @@ export interface PlayerCreate {
   on_base_percentage?: string;
   slugging_percentage?: string;
   ops?: string;
+  hits_per_game?: string;
 }
 
 /**
