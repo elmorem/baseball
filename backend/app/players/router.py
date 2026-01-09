@@ -24,6 +24,7 @@ from app.players.schemas import (
     PlayerResponse,
     PlayerUpdate,
 )
+from app.players.utils import calculate_hits_per_game
 
 router = APIRouter(prefix="/players", tags=["Players"])
 
@@ -152,7 +153,8 @@ async def update_existing_player(
 ) -> PlayerResponse:
     """Update an existing player.
 
-    Requires authentication.
+    Requires authentication. If hits or games are updated, hits_per_game
+    will be automatically recalculated.
 
     Args:
         player_id: Player's UUID.
@@ -172,6 +174,21 @@ async def update_existing_player(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Player not found",
+        )
+
+    # Check if hits or games are being updated - need to recalculate hits_per_game
+    update_data = player_update.model_dump(exclude_unset=True)
+    if "hits" in update_data or "games" in update_data:
+        # Get the final values after update
+        new_hits = update_data.get("hits", player.hits)
+        new_games = update_data.get("games", player.games)
+
+        # Recalculate hits_per_game
+        new_hits_per_game = calculate_hits_per_game(new_hits, new_games)
+
+        # Add to update data (will override any manually set value)
+        player_update = PlayerUpdate(
+            **{**update_data, "hits_per_game": new_hits_per_game}
         )
 
     updated_player = await update_player(db, player, player_update)

@@ -43,6 +43,7 @@ const SORT_OPTIONS = [
   { value: 'rbis', label: 'RBIs' },
   { value: 'hits', label: 'Hits' },
   { value: 'runs', label: 'Runs' },
+  { value: 'hits_per_game', label: 'Hits/Game' },
 ];
 
 export function PlayerListPage() {
@@ -247,6 +248,9 @@ export function PlayerListPage() {
                     <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
                       OPS
                     </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
+                      H/G
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
@@ -283,6 +287,9 @@ export function PlayerListPage() {
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-600">
                         {formatStat(player.ops)}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-600">
+                        {formatStat(player.hits_per_game)}
                       </td>
                     </tr>
                   ))}

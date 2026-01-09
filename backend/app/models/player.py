@@ -35,6 +35,7 @@ class Player(Base, UUIDMixin, TimestampMixin):
         on_base_percentage: On-base percentage
         slugging_percentage: Slugging percentage
         ops: On-base plus slugging
+        hits_per_game: Hits per game (hits / games)
         created_at: Timestamp when player was created
         updated_at: Timestamp when player was last updated
         descriptions: Related player descriptions
@@ -156,6 +157,12 @@ class Player(Base, UUIDMixin, TimestampMixin):
         doc="On-base plus slugging (OBP + SLG)",
     )
 
+    hits_per_game: Mapped[Optional[Decimal]] = mapped_column(
+        Numeric(precision=8, scale=3),
+        nullable=True,
+        doc="Hits per game (hits / games)",
+    )
+
     # Relationships
     descriptions: Mapped[List["PlayerDescription"]] = relationship(
         "PlayerDescription",
@@ -170,6 +177,7 @@ class Player(Base, UUIDMixin, TimestampMixin):
         Index("idx_hits_desc", hits.desc()),
         Index("idx_home_runs_desc", home_runs.desc()),
         Index("idx_batting_average_desc", batting_average.desc()),
+        Index("idx_hits_per_game_desc", hits_per_game.desc()),
     )
 
     def __repr__(self) -> str:
