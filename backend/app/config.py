@@ -8,15 +8,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
-    # Database
+    # Database - REQUIRED, no default (must be set in .env or environment)
     DATABASE_URL: str = Field(
-        default="postgresql+asyncpg://postgres:postgres@localhost:5432/baseball",
         description="Async PostgreSQL database URL",
     )
 
-    # Security
+    # Security - REQUIRED, no default (must be set in .env or environment)
     SECRET_KEY: str = Field(
-        default="your-super-secret-key-at-least-32-characters-long",
         min_length=32,
         description="Secret key for JWT token generation (min 32 characters)",
     )
@@ -25,7 +23,7 @@ class Settings(BaseSettings):
         default=30, description="JWT token expiration time in minutes"
     )
 
-    # OpenAI
+    # OpenAI - Optional, empty default allows app to run without AI features
     OPENAI_API_KEY: str = Field(
         default="", description="OpenAI API key for generating player descriptions"
     )

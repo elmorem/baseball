@@ -25,7 +25,7 @@ services:
     container_name: baseball_backend
     environment:
       DATABASE_URL: postgresql+asyncpg://baseball_user:baseball_pass@postgres:5432/baseball_db
-      SECRET_KEY: ${SECRET_KEY:-your-super-secret-key-at-least-32-characters-long}
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY must be set in .env file}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       ALLOWED_ORIGINS: http://localhost:3001,http://localhost:5173
     ports:
