@@ -5,7 +5,7 @@
 import { apiClient, tokenManager } from '../lib/api';
 import type { LoginCredentials, RegisterData, TokenResponse, User } from '../types/auth';
 
-const API_PREFIX = '/api/v1/auth';
+const API_PREFIX = '/auth';
 
 /**
  * Register a new user account.

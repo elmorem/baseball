@@ -11,7 +11,7 @@ import type {
   PlayerUpdate,
 } from '../types/player';
 
-const API_PREFIX = '/api/v1/players';
+const API_PREFIX = '/players';
 
 /**
  * Build query string from params object.

@@ -31,8 +31,23 @@ export const tokenManager = {
 
 /**
  * Configure API base URL from environment
+ * In production (Docker), use relative path to leverage nginx proxy
+ * In development, use the VITE_API_URL or localhost
  */
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const getBaseUrl = (): string => {
+  // If VITE_API_URL is explicitly set, use it
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  // In production mode, use relative path for nginx proxy
+  if (import.meta.env.PROD) {
+    return '/api/v1';
+  }
+  // Default for development
+  return 'http://localhost:8000/api/v1';
+};
+
+const BASE_URL = getBaseUrl();
 
 /**
  * Create axios instance with default configuration
@@ -86,8 +101,7 @@ const createApiClient = (): AxiosInstance => {
             throw new Error('No refresh token available');
           }
 
-          // TODO: Implement actual token refresh endpoint
-          // For now, this is a placeholder
+          // Attempt token refresh using the configured base URL
           const response = await axios.post(`${BASE_URL}/auth/refresh`, {
             refresh_token: refreshToken,
           });

@@ -41,7 +41,7 @@ describe('players service', () => {
 
       const result = await getPlayers();
 
-      expect(apiClient.get).toHaveBeenCalledWith('/api/v1/players');
+      expect(apiClient.get).toHaveBeenCalledWith('/players');
       expect(result).toEqual(mockPlayerListResponse);
     });
 
@@ -50,7 +50,7 @@ describe('players service', () => {
 
       await getPlayers({ search: 'Mike' });
 
-      expect(apiClient.get).toHaveBeenCalledWith('/api/v1/players?search=Mike');
+      expect(apiClient.get).toHaveBeenCalledWith('/players?search=Mike');
     });
 
     it('should fetch players with pagination params', async () => {
@@ -58,7 +58,7 @@ describe('players service', () => {
 
       await getPlayers({ page: 2, page_size: 20 });
 
-      expect(apiClient.get).toHaveBeenCalledWith('/api/v1/players?page=2&page_size=20');
+      expect(apiClient.get).toHaveBeenCalledWith('/players?page=2&page_size=20');
     });
 
     it('should fetch players with position filter', async () => {
@@ -66,7 +66,7 @@ describe('players service', () => {
 
       await getPlayers({ position: 'CF' });
 
-      expect(apiClient.get).toHaveBeenCalledWith('/api/v1/players?position=CF');
+      expect(apiClient.get).toHaveBeenCalledWith('/players?position=CF');
     });
 
     it('should fetch players with sort params', async () => {
@@ -75,7 +75,7 @@ describe('players service', () => {
       await getPlayers({ sort_by: 'batting_average', sort_order: 'desc' });
 
       expect(apiClient.get).toHaveBeenCalledWith(
-        '/api/v1/players?sort_by=batting_average&sort_order=desc'
+        '/players?sort_by=batting_average&sort_order=desc'
       );
     });
 
@@ -92,7 +92,7 @@ describe('players service', () => {
       });
 
       expect(apiClient.get).toHaveBeenCalledWith(
-        '/api/v1/players?page=1&page_size=10&search=Trout&position=CF&sort_by=home_runs&sort_order=asc'
+        '/players?page=1&page_size=10&search=Trout&position=CF&sort_by=home_runs&sort_order=asc'
       );
     });
   });
@@ -103,7 +103,7 @@ describe('players service', () => {
 
       const result = await getPlayer('123');
 
-      expect(apiClient.get).toHaveBeenCalledWith('/api/v1/players/123');
+      expect(apiClient.get).toHaveBeenCalledWith('/players/123');
       expect(result).toEqual(mockPlayer);
     });
   });
@@ -120,7 +120,7 @@ describe('players service', () => {
 
       const result = await createPlayer(playerData);
 
-      expect(apiClient.post).toHaveBeenCalledWith('/api/v1/players', playerData);
+      expect(apiClient.post).toHaveBeenCalledWith('/players', playerData);
       expect(result.player_name).toBe('New Player');
     });
   });
@@ -137,7 +137,7 @@ describe('players service', () => {
 
       const result = await updatePlayer('123', updateData);
 
-      expect(apiClient.patch).toHaveBeenCalledWith('/api/v1/players/123', updateData);
+      expect(apiClient.patch).toHaveBeenCalledWith('/players/123', updateData);
       expect(result.home_runs).toBe(45);
       expect(result.rbis).toBe(100);
     });
@@ -149,7 +149,7 @@ describe('players service', () => {
 
       await deletePlayer('123');
 
-      expect(apiClient.delete).toHaveBeenCalledWith('/api/v1/players/123');
+      expect(apiClient.delete).toHaveBeenCalledWith('/players/123');
     });
   });
 
@@ -172,7 +172,7 @@ describe('players service', () => {
 
       const result = await generateDescription('123');
 
-      expect(apiClient.post).toHaveBeenCalledWith('/api/v1/players/123/generate-description');
+      expect(apiClient.post).toHaveBeenCalledWith('/players/123/generate-description');
       expect(result.descriptions).toHaveLength(1);
       expect(result.descriptions[0]?.content).toContain('Mike Trout');
     });

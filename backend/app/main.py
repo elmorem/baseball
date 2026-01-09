@@ -6,7 +6,8 @@ from typing import AsyncGenerator, Awaitable, Callable
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.openapi.docs import get_redoc_html
+from fastapi.responses import HTMLResponse, JSONResponse
 
 from app.ai import ai_router
 from app.auth import auth_router
@@ -45,7 +46,7 @@ app = FastAPI(
     description="A comprehensive API for managing baseball player statistics and AI-generated insights",
     version="0.1.0",
     docs_url="/api/docs",
-    redoc_url="/api/redoc",
+    redoc_url=None,  # Disabled default, using custom route below
     openapi_url="/api/openapi.json",
     lifespan=lifespan,
 )
@@ -119,6 +120,16 @@ async def health_check() -> JSONResponse:
 app.include_router(auth_router, prefix="/api/v1")
 app.include_router(players_router, prefix="/api/v1")
 app.include_router(ai_router, prefix="/api/v1")
+
+
+@app.get("/api/redoc", include_in_schema=False)
+async def redoc_html() -> HTMLResponse:
+    """Custom ReDoc endpoint with stable CDN version."""
+    return get_redoc_html(
+        openapi_url="/api/openapi.json",
+        title=f"{settings.APP_NAME} - ReDoc",
+        redoc_js_url="https://cdn.jsdelivr.net/npm/redoc@2.1.3/bundles/redoc.standalone.js",
+    )
 
 
 @app.get("/", tags=["Root"])
